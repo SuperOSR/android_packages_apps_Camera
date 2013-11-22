@@ -315,8 +315,6 @@ public class PhotoModule
         }
     };
 
-	private boolean mIsSurfaceTextureUpdateNeeded = false;
-
     // The purpose is not to block the main thread in onCreate and onResume.
     private class CameraStartUpThread extends Thread {
         private volatile boolean mCancelled;
@@ -1949,8 +1947,7 @@ public class PhotoModule
 
         if (ApiHelper.HAS_SURFACE_TEXTURE) {
             CameraScreenNail screenNail = (CameraScreenNail) mActivity.mCameraScreenNail;
-            if ((mSurfaceTexture == null) || (mIsSurfaceTextureUpdateNeeded == true)) {
-				Log.v("fuqiang","========== SurfaceTextureUpdated ==========");
+            if (mSurfaceTexture == null) {
                 Size size = mParameters.getPreviewSize();
                 if (mCameraDisplayOrientation % 180 == 0) {
                     screenNail.setSize(size.width, size.height);
@@ -1966,7 +1963,6 @@ public class PhotoModule
                 }
                 mSurfaceTexture = screenNail.getSurfaceTexture();
             }
-			mIsSurfaceTextureUpdateNeeded = false;
             mCameraDevice.setDisplayOrientation(mCameraDisplayOrientation);
             if (mSurfaceTexture != null) {
                 mCameraDevice.setPreviewTextureAsync((SurfaceTexture) mSurfaceTexture);
@@ -2299,8 +2295,6 @@ public class PhotoModule
 
     private void switchCamera() {
         if (mPaused) return;
-
-		mIsSurfaceTextureUpdateNeeded = true;
 
         Log.v(TAG, "Start to switch camera. id=" + mPendingSwitchCameraId);
         mCameraId = mPendingSwitchCameraId;

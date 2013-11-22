@@ -1903,11 +1903,6 @@ public class VideoModule implements CameraModule,
         mParameters.setPreviewSize(mDesiredPreviewWidth, mDesiredPreviewHeight);
         mParameters.setPreviewFrameRate(mProfile.videoFrameRate);
 
-		// star add
-        Log.d(TAG, "[star] set video size");
-        //mParameters.set("video-size", String.format("%dx%d", mProfile.videoFrameWidth, mProfile.videoFrameHeight));
-        mParameters.set("video-size", "" + mProfile.videoFrameWidth + "x" + mProfile.videoFrameHeight);
-
         // Set flash mode.
         String flashMode;
         if (mActivity.mShowCameraAppView) {
